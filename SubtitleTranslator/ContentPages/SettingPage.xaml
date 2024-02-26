@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:ModelSettingPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SubtitleTranslator.ContentPages.SettingPage"
+             xmlns:local="clr-namespace:SubtitleTranslator.ContentPages"
+             xmlns:items="clr-namespace:SubtitleTranslator.ViewModels.Items"
+             xmlns:converts="clr-namespace:App.UI.Infrastructure.Converters;assembly=App.UI.Infrastructure" 
+             xmlns:controls="clr-namespace:App.UI.Infrastructure.Controls;assembly=App.UI.Infrastructure"
+             Title="{Binding TextViewModel.SettingPageTitle.Text,Mode=OneWay}" 
+             Unloaded="ModelSettingPage_Unloaded">
+    <local:ModelSettingPage.Resources>
+        <ResourceDictionary>
+            <converts:InvertBoolConverter x:Key="InvertBool"/>
+
+        </ResourceDictionary>
+    </local:ModelSettingPage.Resources>
+    <local:ModelSettingPage.ToolbarItems>
+        <ToolbarItem Text="{Binding LanguageItem.Text,Mode=OneWay}" Command="{Binding ItemSelected}" CommandParameter="{Binding LanguageItem.SettingItemType}" IsEnabled="{Binding LanguageItem.IsEnabled}"></ToolbarItem>
+        <ToolbarItem Text="{Binding ExtensionItem.Text,Mode=OneWay}" Command="{Binding ItemSelected}" CommandParameter="{Binding ExtensionItem.SettingItemType}" IsEnabled="{Binding ExtensionItem.IsEnabled}"></ToolbarItem>
+    </local:ModelSettingPage.ToolbarItems>
+    <local:ModelSettingPage.Content>
+        <ScrollView Margin="15,20,15,20">
+            <Grid>
+                <StackLayout IsVisible="{Binding LanguageItem.IsEnabled,Mode=OneWay,Converter={StaticResource InvertBool}}">
+                    <Label Text="{Binding LanguageItem.Text,Mode=OneWay}" Margin="0,0,0,20"/>
+                    <Picker Title="App Language" Margin="0,0,0,20" 
+                            ItemsSource="{Binding LanguageItems,Mode=OneWay}" SelectedItem="{Binding AppLanguage,Mode=TwoWay}" ItemDisplayBinding="{Binding Text}"/>
+                    <Picker Title="Original Language" Margin="0,0,0,20"
+                             ItemsSource="{Binding LanguageItems,Mode=OneWay}" SelectedItem="{Binding OriginalLanguage,Mode=TwoWay}" ItemDisplayBinding="{Binding Text}"/>
+                    <ListView ItemsSource="{Binding LanguageItems}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="items:LanguageItemViewModel">
+                                <ViewCell>
+                                    <Grid>
+                                        <controls:CheckBoxView IsChecked="{Binding Value,Mode=TwoWay}" Text="{Binding Text,Mode=OneWay}" Margin="0,0,0,0"/>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+                <StackLayout IsVisible="{Binding ExtensionItem.IsEnabled,Mode=OneWay,Converter={StaticResource InvertBool}}">
+                    <Label Text="{Binding ExtensionItem.Text,Mode=OneWay}" Margin="0,0,0,20"/>
+
+                    <controls:CheckBoxView IsChecked="{Binding UseOpenAi,Mode=TwoWay}" Text="Use Open Ai" Margin="0,0,0,20"/>
+                    <Entry Margin="0,0,0,20"
+                           Text="{Binding OpenAiKey,Mode=TwoWay}" Placeholder="Api Key" IsVisible="{Binding UseOpenAi,Mode=OneWay}"/>
+                    <Button Margin="0,0,0,20" Text="Get OpenAi Key" Command="{Binding GetOpenAiKey}" 
+                            IsVisible="{Binding UseOpenAi,Mode=OneWay}" MaximumWidthRequest="520" HorizontalOptions="Start" 
+                            />
+                    
+                </StackLayout>
+            </Grid>
+        </ScrollView>
+    </local:ModelSettingPage.Content>
+
+</local:ModelSettingPage>

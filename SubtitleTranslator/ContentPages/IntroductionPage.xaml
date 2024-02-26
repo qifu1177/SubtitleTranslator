@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:ModelIntroductionPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SubtitleTranslator.ContentPages.IntroductionPage"
+             xmlns:local="clr-namespace:SubtitleTranslator.ContentPages"
+            Title="{Binding TextViewModel.IntroductionPageTitle.Text,Mode=OneWay}"
+             xmlns:converts="clr-namespace:App.UI.Infrastructure.Converters;assembly=App.UI.Infrastructure"
+            Loaded="PageLoaded">
+    <local:ModelIntroductionPage.Resources>
+        <ResourceDictionary>
+            <converts:InvertBoolConverter x:Key="InvertBool"/>
+
+        </ResourceDictionary>
+    </local:ModelIntroductionPage.Resources>
+    <local:ModelIntroductionPage.ToolbarItems>
+        <ToolbarItem Text="{Binding AboutUsItem.Text,Mode=OneWay}" Command="{Binding ItemSelected}" CommandParameter="{Binding AboutUsItem.UrlKey}" IsEnabled="{Binding AboutUsItem.IsEnabled}"></ToolbarItem>
+        <ToolbarItem Text="{Binding InstructionsItem.Text,Mode=OneWay}" Command="{Binding ItemSelected}" CommandParameter="{Binding InstructionsItem.UrlKey}" IsEnabled="{Binding InstructionsItem.IsEnabled}"></ToolbarItem>
+        <ToolbarItem Text="{Binding DataPrivacyItem.Text,Mode=OneWay}" Command="{Binding ItemSelected}" CommandParameter="{Binding DataPrivacyItem.UrlKey}" IsEnabled="{Binding DataPrivacyItem.IsEnabled}"></ToolbarItem>
+        <!--<ToolbarItem Text="{Binding ThirdPartiesItem.Text,Mode=OneWay}" Command="{Binding ItemSelected}" CommandParameter="{Binding ThirdPartiesItem.UrlKey}" IsEnabled="{Binding ThirdPartiesItem.IsEnabled}"></ToolbarItem>-->
+    </local:ModelIntroductionPage.ToolbarItems>
+    <local:ModelIntroductionPage.Content>
+        <WebView Source="{Binding SelectedUrl,Mode=OneWay}"/>
+    </local:ModelIntroductionPage.Content>
+</local:ModelIntroductionPage>

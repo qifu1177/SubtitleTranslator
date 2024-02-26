@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:ModelHomePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SubtitleTranslator.ContentPages.HomePage"
+             xmlns:local="clr-namespace:SubtitleTranslator.ContentPages"
+             Title="{Binding TextViewModel.HomePageTitle.Text,Mode=OneWay}">
+    
+    <VerticalStackLayout>
+        <Label 
+            Text="Welcome to Home!"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</local:ModelHomePage>

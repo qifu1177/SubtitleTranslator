@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>YouTube Video Player</title>
+</head>
+<body>
+    <header>
+        <button id="changeVideoButton">文字识别说明</button>
+        <button id="changeVideoButton2">语音识别说明</button>
+    </header>
+    <div id="videoContainer">
+        <iframe id="videoPlayer" width="560" height="315" src="https://www.youtube.com/embed/mzKJozVG7WM?si=wTBeXVn5sAxJZMsL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+    </div>
+
+    <script>
+        const videoPlayer = document.getElementById("videoPlayer");
+        const changeVideoButton = document.getElementById("changeVideoButton");
+        const changeVideoButton2 = document.getElementById("changeVideoButton2");
+
+        changeVideoButton.addEventListener("click", function() {
+            videoPlayer.src = "https://www.youtube.com/embed/mzKJozVG7WM?si=wTBeXVn5sAxJZMsL"; // Change VIDEO_ID_1 to the ID of the first YouTube video you want to display.
+        });
+
+        changeVideoButton2.addEventListener("click", function() {
+            videoPlayer.src = "https://www.youtube.com/embed/Sr0Jppd0icY?si=qBpNCedzRVIHfNXZ"; // Change VIDEO_ID_2 to the ID of the second YouTube video you want to display.
+        });
+    </script>
+</body>
+</html>
