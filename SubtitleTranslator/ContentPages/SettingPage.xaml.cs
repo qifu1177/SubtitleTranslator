@@ -5,8 +5,8 @@ namespace SubtitleTranslator.ContentPages;
 
 public partial class SettingPage : ModelSettingPage
 {
-    public SettingPage() : this(null) { }
-    public SettingPage(UiSettingViewModel viewModel) : base(viewModel)
+    
+    public SettingPage() 
     {
         InitializeComponent();
     }
@@ -19,9 +19,14 @@ public partial class SettingPage : ModelSettingPage
     private void ModelSettingPage_Unloaded(object sender, EventArgs e)
     {
         ViewModel.Save();
+    }  
+    
+
+    private void OpenAiKeyChanged(object sender, TextChangedEventArgs e)
+    {
+        ViewModel.UpdateApiClient();
     }
 }
 public abstract class ModelSettingPage : ModelContentPage<UiSettingViewModel>
 {
-    public ModelSettingPage(UiSettingViewModel viewModel) : base(viewModel) { }
 }

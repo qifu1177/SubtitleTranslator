@@ -6,10 +6,8 @@ namespace App.UI.Infrastructure.Bases
     public abstract class ModelContentPage<T> : ContentPage where T : ViewModelAbstract
     {
         public T ViewModel { get; private set; }
-        public ModelContentPage(T viewModel) {
-            if (viewModel == null)
-                viewModel = InstanceMap<AppContainer>.Instance.GetService<T>();
-            ViewModel = viewModel;
+        public ModelContentPage() {            
+            ViewModel = InstanceMap<AppContainer>.Instance.GetService<T>();
             BindingContext = ViewModel;
         }
     }

@@ -23,13 +23,14 @@
             <Grid>
                 <StackLayout IsVisible="{Binding LanguageItem.IsEnabled,Mode=OneWay,Converter={StaticResource InvertBool}}">
                     <Label Text="{Binding LanguageItem.Text,Mode=OneWay}" Margin="0,0,0,20"/>
-                    <Picker Title="App Language" Margin="0,0,0,20" 
-                            ItemsSource="{Binding LanguageItems,Mode=OneWay}" SelectedItem="{Binding AppLanguage,Mode=TwoWay}" ItemDisplayBinding="{Binding Text}"/>
-                    <Picker Title="Original Language" Margin="0,0,0,20"
-                             ItemsSource="{Binding LanguageItems,Mode=OneWay}" SelectedItem="{Binding OriginalLanguage,Mode=TwoWay}" ItemDisplayBinding="{Binding Text}"/>
-                    <ListView ItemsSource="{Binding LanguageItems}">
+                    <Picker Title="{Binding AppLanguageText.Text,Mode=OneWay}" Margin="0,0,0,20" 
+                            ItemsSource="{Binding LanguageItems,Mode=OneWay}" SelectedItem="{Binding AppLanguage,Mode=TwoWay}" ItemDisplayBinding="{Binding Text,Mode=OneWay}"/>
+                    <Picker Title="{Binding OriginalLanguageText.Text,Mode=OneWay}" Margin="0,0,0,20"
+                             ItemsSource="{Binding LanguageItems,Mode=OneWay}" SelectedItem="{Binding OriginalLanguage,Mode=TwoWay}" ItemDisplayBinding="{Binding Text,Mode=OneWay}"/>
+                    <Label Text="{Binding TranslationLanguageText.Text,Mode=OneWay}" />
+                    <ListView ItemsSource="{Binding LanguageItems}" >
                         <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="items:LanguageItemViewModel">
+                            <DataTemplate>
                                 <ViewCell>
                                     <Grid>
                                         <controls:CheckBoxView IsChecked="{Binding Value,Mode=TwoWay}" Text="{Binding Text,Mode=OneWay}" Margin="0,0,0,0"/>
@@ -42,10 +43,10 @@
                 <StackLayout IsVisible="{Binding ExtensionItem.IsEnabled,Mode=OneWay,Converter={StaticResource InvertBool}}">
                     <Label Text="{Binding ExtensionItem.Text,Mode=OneWay}" Margin="0,0,0,20"/>
 
-                    <controls:CheckBoxView IsChecked="{Binding UseOpenAi,Mode=TwoWay}" Text="Use Open Ai" Margin="0,0,0,20"/>
-                    <Entry Margin="0,0,0,20"
+                    <controls:CheckBoxView IsChecked="{Binding UseOpenAi,Mode=TwoWay}" Text="{Binding UseOpenAiText.Text,Mode=OneWay}"  Margin="0,0,0,20"/>
+                    <Entry Margin="0,0,0,20" TextChanged="OpenAiKeyChanged"
                            Text="{Binding OpenAiKey,Mode=TwoWay}" Placeholder="Api Key" IsVisible="{Binding UseOpenAi,Mode=OneWay}"/>
-                    <Button Margin="0,0,0,20" Text="Get OpenAi Key" Command="{Binding GetOpenAiKey}" 
+                    <Button Margin="0,0,0,20" Text="{Binding GetOpenAiKeyText.Text,Mode=OneWay}" Command="{Binding GetOpenAiKey}" 
                             IsVisible="{Binding UseOpenAi,Mode=OneWay}" MaximumWidthRequest="520" HorizontalOptions="Start" 
                             />
                     

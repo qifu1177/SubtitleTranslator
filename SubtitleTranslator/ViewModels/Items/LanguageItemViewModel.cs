@@ -3,6 +3,7 @@
 using App.Infrastructure.Datas;
 using App.Infrastructure.Interfaces.Datas;
 using App.UI.Infrastructure.ViewModels.Abstractions;
+using System.Windows.Input;
 
 namespace SubtitleTranslator.ViewModels.Items
 {
@@ -20,6 +21,9 @@ namespace SubtitleTranslator.ViewModels.Items
             if (ValueChanged != null)
                 ValueChanged.Invoke();
         }, value); }
+        private bool _isSelected=false;
+        public bool IsSelected { get => _isSelected;set=>SetProperty(ref _isSelected, value); }
+        public ICommand ItemClicked { get; set; }
         public LanguageItemViewModel(LanguageItem data) : base(data)
         {
         }

@@ -5,6 +5,7 @@ using App.UI.Infrastructure.Services;
 using App.UI.Infrastructure.ViewModels.Abstractions;
 using SubtitleTranslator.Datas;
 using SubtitleTranslator.Resources;
+using SubtitleTranslator.Services;
 using SubtitleTranslator.ViewModels.Items;
 using System.Windows.Input;
 
@@ -13,6 +14,7 @@ namespace SubtitleTranslator.ViewModels
     public class UiSettingViewModel : TranslationViewModelAbstract
     {
         private ISettingSerivice _settingSerivice;
+        private AppService _appService;
         private PathHelp _pathHelp;
         public UiSetting Setting { get; private set; }
         public TextViewModel TextViewModel { get; private set; }
@@ -50,6 +52,7 @@ namespace SubtitleTranslator.ViewModels
             get => Setting.UserSetting.UseOpenAi; set => SetProperty((v) =>
             {
                 Setting.UserSetting.UseOpenAi = value;
+                UpdateApiClient();
             }, value);
         }
         public string OpenAiKey
@@ -60,12 +63,18 @@ namespace SubtitleTranslator.ViewModels
                 Setting.UserSetting.OpenAiKey = v;
             }, value);
         }
-
-        public UiSettingViewModel(ISettingSerivice settingSerivice, ILocalService localService, PathHelp pathHelp, TextViewModel textViewModel) : base(localService)
+        public TextItemViewModel AppLanguageText { get; private set; }
+        public TextItemViewModel OriginalLanguageText { get; private set; }
+        public TextItemViewModel TranslationLanguageText { get; private set; }
+        public TextItemViewModel GetOpenAiKeyText { get; private set; }
+        public TextItemViewModel UseOpenAiText { get; private set; }
+        public event Action UpdateTranslationsLanguages;
+        public UiSettingViewModel(ISettingSerivice settingSerivice, ILocalService localService, PathHelp pathHelp, TextViewModel textViewModel,AppService appService) : base(localService)
         {
             _settingSerivice = settingSerivice;
             _pathHelp=pathHelp;
             TextViewModel = textViewModel;
+            _appService = appService;
             ItemSelected = new Command<SettingItemType>((itemType) =>
             {
                 SelectedItemType = itemType;
@@ -128,8 +137,13 @@ namespace SubtitleTranslator.ViewModels
                 }
             }
             Setting.UpdateTranslationLanguagesInUserSetting();
+            if (UpdateTranslationsLanguages != null)
+                UpdateTranslationsLanguages.Invoke();
         }
-
+        public void UpdateApiClient()
+        {
+            _appService.UpdateApiClient(Setting.UserSetting);
+        }
         public void Save()
         {
             string settingPath = System.IO.Path.Combine(_pathHelp.UserPath, ConstantValues.SETTINGFILE);
@@ -153,8 +167,17 @@ namespace SubtitleTranslator.ViewModels
             };
             SelectedItemType = LanguageItem.SettingItemType;
             _keyTexts.Add(LanguageItem);
-            _keyTexts.Add(ExtensionItem);            
-
+            _keyTexts.Add(ExtensionItem);
+            AppLanguageText = new TextItemViewModel { Key = "settingView.AppLanguage", Text = "" };
+            _keyTexts.Add(AppLanguageText);
+            OriginalLanguageText = new TextItemViewModel { Key = "settingView.OriginalLanguage", Text = "" };
+            _keyTexts.Add(OriginalLanguageText);
+            TranslationLanguageText = new TextItemViewModel { Key = "settingView.TranslationLanguage", Text = "" };
+            _keyTexts.Add(TranslationLanguageText);
+            GetOpenAiKeyText = new TextItemViewModel { Key = "settingView.GetOpenAiKey", Text = "" };
+            _keyTexts.Add(GetOpenAiKeyText);
+            UseOpenAiText = new TextItemViewModel { Key = "settingView.UseOpenAi", Text = "" };
+            _keyTexts.Add(UseOpenAiText);
         }
 
     }

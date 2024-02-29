@@ -7,6 +7,7 @@ namespace App.UI.Infrastructure.Bases
     public class ModelContentView<T> : ContentView where T : ViewModelAbstract
     {
         public T ViewModel { get; private set; }
+        public ModelContentView() : this(null) { }
         public ModelContentView(T viewModel)
         {
             if (viewModel == null)

@@ -3,12 +3,70 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SubtitleTranslator.ContentPages.HomePage"
              xmlns:local="clr-namespace:SubtitleTranslator.ContentPages"
-             Title="{Binding TextViewModel.HomePageTitle.Text,Mode=OneWay}">
-    
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to Home!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="{Binding TextViewModel.HomePageTitle.Text,Mode=OneWay}"
+             xmlns:converts="clr-namespace:SubtitleTranslator.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Loaded="PageLoaded">
+
+    <local:ModelHomePage.Resources>
+        <ResourceDictionary>
+            <converts:BoolColorConverter x:Key="BoolColor"/>
+        </ResourceDictionary>
+    </local:ModelHomePage.Resources>
+    <local:ModelHomePage.ToolbarItems>
+        <ToolbarItem Text="{Binding ImportItem.Text,Mode=OneWay}" Command="{Binding ItemSelected}" CommandParameter="{Binding ImportItem.Key}" IsEnabled="{Binding ImportItem.IsEnabled}"></ToolbarItem>
+        <ToolbarItem Text="{Binding TranslationItem.Text,Mode=OneWay}" Command="{Binding ItemSelected}" CommandParameter="{Binding TranslationItem.Key}" IsEnabled="{Binding TranslationItem.IsEnabled}"></ToolbarItem>
+        <ToolbarItem Text="{Binding ExportItem.Text,Mode=OneWay}" Command="{Binding ItemSelected}" CommandParameter="{Binding ExportItem.Key}" IsEnabled="{Binding ExportItem.IsEnabled}"></ToolbarItem>
+    </local:ModelHomePage.ToolbarItems>
+    <local:ModelHomePage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <CollectionView Grid.Row="0" ItemsLayout="HorizontalList"  ItemsSource="{Binding LanguageItems}" MaximumHeightRequest="48" BackgroundColor="{StaticResource Tertiary}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding Text,Mode=OneWay}"  Margin="10,5,20,5" TextColor="{Binding IsSelected,Mode=OneWay,Converter={StaticResource BoolColor}}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ItemClicked}" CommandParameter="{Binding Key}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <CollectionView Grid.Row="1" ItemsLayout="VerticalList"  ItemsSource="{Binding SubtitleItems}" Margin="5">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Text="{Binding Index,StringFormat='{0}'}" WidthRequest="85"/>
+                                <Label Grid.Column="1" Text="{Binding StartTime,StringFormat='{0:g}'}" WidthRequest="85"/>
+                                <Label Grid.Column="2" Text="{Binding EndTime,StringFormat='{0:g}'}" WidthRequest="85"/>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <ImageButton Grid.Column="0" Source="edit.png" Command="{Binding ItemEditCommand}" CommandParameter="{Binding}" Margin="0,5,20,5"/>
+                                <Label Grid.Column="1" Text="{Binding Subtitle,Mode=OneWay}" VerticalOptions="Center"/>
+                            </Grid>
+                            
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
+        </Grid>
+    </local:ModelHomePage.Content>
 </local:ModelHomePage>

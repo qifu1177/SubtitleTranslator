@@ -1,13 +1,15 @@
 ﻿using App.Infrastructure.Common;
+using App.UI.Infrastructure.Bases;
 using App.UI.Infrastructure.ViewModels.Abstractions;
+using CommunityToolkit.Maui.Views;
 
-namespace App.UI.Infrastructure.Bases
+
+namespace SubtitleTranslator.Views.Abstracts
 {
-    public class ModelFlyoutPage<T> : FlyoutPage where T : ViewModelAbstract
+    public abstract class ModelPopupPage<T> : Popup where T : ViewModelAbstract
     {
         public T ViewModel { get; private set; }
-        public ModelFlyoutPage()
-        {
+        public ModelPopupPage() {
             ViewModel = InstanceMap<AppContainer>.Instance.GetService<T>();
             BindingContext = ViewModel;
         }

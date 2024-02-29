@@ -15,7 +15,8 @@ namespace SubtitleTranslator.ViewModels
         public TextItemViewModel HomePageTitle { get; private set; }
         public TextItemViewModel SettingPageTitle { get; private set; }
         public TextItemViewModel IntroductionPageTitle { get; private set; }
-        
+        public TextItemViewModel ViewOKText { get; private set; }
+        public TextItemViewModel ViewCancelText { get; private set; }
         public TextViewModel(ILocalService localService):base(localService)
         {
         }
@@ -29,6 +30,10 @@ namespace SubtitleTranslator.ViewModels
             _keyTexts.Add(IntroductionPageTitle);
             InstallModelErrorMessage = new TextItemViewModel { Key = "plugInView.InstallModelErrorMessage", Text = "" };
             _keyTexts.Add(InstallModelErrorMessage);
+            ViewOKText = new TextItemViewModel { Key = "view.OK", Text = "" };
+            _keyTexts.Add(ViewOKText);
+            ViewCancelText = new TextItemViewModel { Key = "view.Cancel", Text = "" };
+            _keyTexts.Add(ViewCancelText);
         }
         protected override void UpdateTranslation()
         {

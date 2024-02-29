@@ -1,11 +1,13 @@
 ﻿using App.DataAccess.Services;
 using App.Infrastructure.Interfaces.Services;
-using App.NetWork.Services;
 using App.UI.Infrastructure.Services;
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using SubtitleTranslator.ContentPages;
 using SubtitleTranslator.Services;
 using SubtitleTranslator.ViewModels;
+using SubtitleTranslator.ViewModels.PopupViewModels;
+using SubtitleTranslator.Views;
 
 namespace SubtitleTranslator
 {
@@ -13,9 +15,10 @@ namespace SubtitleTranslator
     {
         public static MauiApp CreateMauiApp()
         {
+           
             var builder = MauiApp.CreateBuilder();
-            builder
-                .UseMauiApp<App>()
+            builder.UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -45,6 +48,7 @@ namespace SubtitleTranslator
             builder.Services.AddSingleton<MainViewModel>();
             builder.Services.AddSingleton<HomeViewModel>();
             builder.Services.AddScoped<IntroductionViewModel>();
+            builder.Services.AddScoped<EditSubtitleViewModel>();
             return builder;
         }
         public static MauiAppBuilder RegisterViews(this MauiAppBuilder builder)
@@ -56,5 +60,7 @@ namespace SubtitleTranslator
             builder.Services.AddScoped<IntroductionPage>();
             return builder;
         }
+       
+        
     }
 }

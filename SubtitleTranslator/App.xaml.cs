@@ -29,7 +29,7 @@ namespace SubtitleTranslator
             InstanceMap<UiSetting>.Instance = _uiSetting;
             _settingViewModel.SetData(_uiSetting);
             _localService.AppLanguaeCode = _uiSetting.AppLanguage.TessData.ToString();                     
-            _appService.GetApiClient(_uiSetting.UserSetting);
+            _appService.UpdateApiClient(_uiSetting.UserSetting);
         }
         
     }
