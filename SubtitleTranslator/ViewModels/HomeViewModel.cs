@@ -3,6 +3,7 @@ using App.Infrastructure.Interfaces.Services;
 using App.UI.Infrastructure.Services;
 using App.UI.Infrastructure.ViewModels.Abstractions;
 using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Storage;
 using Microsoft.Maui.Controls;
 using SubtitleTranslator.ContentPages;
 using SubtitleTranslator.Resources;
@@ -12,6 +13,7 @@ using SubtitleTranslator.ViewModels.PopupViewModels;
 using SubtitleTranslator.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Windows.Input;
 
 namespace SubtitleTranslator.ViewModels
@@ -37,6 +39,7 @@ namespace SubtitleTranslator.ViewModels
         private Dictionary<string, List<SubtitleItemViewModel>> _subtitleItems;
         private string _errorMessage = string.Empty;
         public string ErrorMessage { get => _errorMessage; set => SetProperty(ref _errorMessage, value); }
+        private string _originalFile=string.Empty;
         public HomeViewModel(ILocalService localService, TextViewModel textViewModel, UiSettingViewModel uiSettingViewModel, AppService appService) : base(localService)
         {
             TextViewModel = textViewModel;
@@ -146,6 +149,7 @@ namespace SubtitleTranslator.ViewModels
             FileResult fileResult = await PickAndShow(options);
             if (fileResult != null)
             {
+                _originalFile=fileResult.FullPath;
                 var list = _appService.GetSubtitleItemsFromFile(fileResult.FullPath);
                 SubtitleItems.Clear();
                 foreach (var item in list)
@@ -182,21 +186,31 @@ namespace SubtitleTranslator.ViewModels
         }
         public async Task Save()
         {
-            foreach (var item in LanguageItems)
+            if (string.IsNullOrEmpty(_originalFile))
+                return;
+            var (fileName,typeName)=_appService.GetFileNameAndType(_originalFile);
+            var result = await FolderPicker.Default.PickAsync(CancellationToken.None);
+            if(result.IsSuccessful)
             {
-                try
+                foreach (var item in LanguageItems)
                 {
-                    if (_subtitleItems.TryGetValue(item.Key, out var originals))
+                    string ln = item.Key == _originalLanguageItem.Key ? "original" : item.Data.TessData.ToString();
+                    try
                     {
-
+                        if (_subtitleItems.TryGetValue(item.Key, out var list))
+                        {
+                            string file = Path.Combine(result.Folder.Path, $"{fileName}_{ln}.{typeName}");
+                            _appService.SaveSubtitleFile(file, typeName, list);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorMessage = ex.Message;
+                        return;
                     }
                 }
-                catch (Exception ex)
-                {
-                    ErrorMessage = ex.Message;
-                    return;
-                }
             }
+            
         }
         public async Task<FileResult> PickAndShow(PickOptions options)
         {

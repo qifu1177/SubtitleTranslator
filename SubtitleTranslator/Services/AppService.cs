@@ -5,6 +5,7 @@ using App.Infrastructure.Interfaces.Services;
 using App.NetWork.Services;
 using App.UI.Infrastructure.ViewModels.Abstractions;
 using CommunityToolkit.Maui.Views;
+using SubtitleTranslator.Resources;
 using SubtitleTranslator.Resources.Configurations;
 using SubtitleTranslator.ViewModels.Abstracts;
 using SubtitleTranslator.ViewModels.Items;
@@ -125,6 +126,42 @@ namespace SubtitleTranslator.Services
             init(t.ViewModel);
             await App.Current.MainPage.ShowPopupAsync(t);
             return t.ViewModel.Result;
+        }
+        public (string,string) GetFileNameAndType(string path)
+        {
+            FileInfo fileInfo = new FileInfo(path);
+            string[] strs=fileInfo.Name.Split('.');
+            return (strs[0], strs[1]);
+        }
+        public void SaveSubtitleFile(string path, string fileType, List<SubtitleItemViewModel> list)
+        {
+            using(StreamWriter sw = new StreamWriter(path))
+            {
+                if (fileType == ConstantValues.SubtitleFileType1)
+                    SaveSubtitleFileWithType1(sw, list);
+                else if (fileType == ConstantValues.SubtitleFileType2)
+                    SaveSubtitleFileWithType2(sw, list);
+            }
+        }
+        private void SaveSubtitleFileWithType1(StreamWriter sw, List<SubtitleItemViewModel> list)
+        {
+            foreach(var item in list)
+            {
+                sw.WriteLine(item.Index.ToString());
+                sw.WriteLine(string.Format("{0:hh\\:mm\\:ss\\,fff} --> {1:hh\\:mm\\:ss\\,fff}", item.StartTime,item.EndTime));
+                sw.WriteLine(item.Subtitle);
+                sw.WriteLine("");
+            }
+        }
+        private void SaveSubtitleFileWithType2(StreamWriter sw, List<SubtitleItemViewModel> list)
+        {
+            foreach (var item in list)
+            {
+                sw.WriteLine(item.Index.ToString());
+                sw.WriteLine(string.Format("{0:h\\:mm\\:ss\\.fff},{1:h\\:mm\\:ss\\.fff}", item.StartTime, item.EndTime));
+                sw.WriteLine(item.Subtitle);
+                sw.WriteLine("");
+            }
         }
     }
 }
