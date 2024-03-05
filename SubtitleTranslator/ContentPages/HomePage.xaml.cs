@@ -15,6 +15,13 @@ public partial class HomePage : ModelHomePage
     {
 		ViewModel.UpdateLanguageItems();
     }
+
+    private void SizeChanged(object sender, EventArgs e)
+    {
+        ContentPage view = sender as ContentPage;
+        ViewModel.SizeViewModel.Width = view.Frame.Width;
+        ViewModel.SizeViewModel.Height = view.Frame.Height;
+    }
 }
 public abstract class ModelHomePage : ModelContentPage<HomeViewModel>
 { 	

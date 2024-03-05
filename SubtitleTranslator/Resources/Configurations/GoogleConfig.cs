@@ -9,7 +9,7 @@ namespace SubtitleTranslator.Resources.Configurations
 {
     public class GoogleConfig : IApiConfig
     {
-        private const string Key = "";
+        private const string Key = "AIzaSyAfNCh_6F8VbIZac5OvtpHj_apygQAtyEk";
         private const string Url = "https://translation.googleapis.com/language/translate/v2";
         private const string GoogleSpeechRecognizeUrlUrl = "https://speech.googleapis.com/v1/speech:recognize";
         public string ApiKey => Key;

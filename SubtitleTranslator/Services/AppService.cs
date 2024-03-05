@@ -92,12 +92,12 @@ namespace SubtitleTranslator.Services
         }
         public async Task<List<SubtitleItemViewModel>> Translation(List<SubtitleItemViewModel> originals, LanguageItem languageItem)
         {
-            List<SubtitleItemViewModel> list=new List<SubtitleItemViewModel>();
+            List<SubtitleItemViewModel> list = new List<SubtitleItemViewModel>();
             IApiClient client = InstanceMap<IApiClient>.Instance;
             foreach (SubtitleItemViewModel original in originals)
             {
-                var (result,errorMessage)= await client.ExecuteTranslation(languageItem,original.Subtitle);
-                if(!string.IsNullOrEmpty(errorMessage))
+                var (result, errorMessage) = await client.ExecuteTranslation(languageItem, original.Subtitle);
+                if (!string.IsNullOrEmpty(errorMessage))
                 {
                     throw new Exception(errorMessage);
                 }
@@ -114,52 +114,72 @@ namespace SubtitleTranslator.Services
             }
             return list;
         }
-        public void ShowPopup<T,TViewModel>(Action<TViewModel> init) where TViewModel: PopupViewModelAbstract<object> where T : ModelPopupPage<TViewModel>, new()
+        public void ShowPopup<T, TViewModel>(Action<TViewModel> init) where TViewModel : PopupViewModelAbstract<object> where T : ModelPopupPage<TViewModel>, new()
         {
             T t = new T();
             init(t.ViewModel);
             App.Current.MainPage.ShowPopup(t);
         }
-        public async Task<TResult?> ShowPopupAsync<T, TViewModel,TResult>(Action<TViewModel> init) where TViewModel : PopupViewModelAbstract<TResult> where T : ModelPopupPage<TViewModel>, new()
+        public async Task<TResult?> ShowPopupAsync<T, TViewModel, TResult>(Action<TViewModel> init) where TViewModel : PopupViewModelAbstract<TResult> where T : ModelPopupPage<TViewModel>, new()
         {
             T t = new T();
             init(t.ViewModel);
             await App.Current.MainPage.ShowPopupAsync(t);
             return t.ViewModel.Result;
         }
-        public (string,string) GetFileNameAndType(string path)
+        public async Task ShowPopupAsync<T, TViewModel>(Action<TViewModel> init) where TViewModel : PopupViewModelAbstract where T : ModelPopupPage<TViewModel>, new()
+        {
+            T t = new T();
+            init(t.ViewModel);
+            await App.Current.MainPage.ShowPopupAsync(t);
+        }
+        public (string, string) GetFileNameAndType(string path)
         {
             FileInfo fileInfo = new FileInfo(path);
-            string[] strs=fileInfo.Name.Split('.');
+            string[] strs = fileInfo.Name.Split('.');
             return (strs[0], strs[1]);
         }
         public void SaveSubtitleFile(string path, string fileType, List<SubtitleItemViewModel> list)
         {
-            using(StreamWriter sw = new StreamWriter(path))
+            using (StreamWriter sw = new StreamWriter(path))
             {
                 if (fileType == ConstantValues.SubtitleFileType1)
-                    SaveSubtitleFileWithType1(sw, list);
+                    SaveSubtitleFileWithType1(sw, list, null);
                 else if (fileType == ConstantValues.SubtitleFileType2)
-                    SaveSubtitleFileWithType2(sw, list);
+                    SaveSubtitleFileWithType2(sw, list, null);
             }
         }
-        private void SaveSubtitleFileWithType1(StreamWriter sw, List<SubtitleItemViewModel> list)
+        public void SaveSubtitleFileWithOriginal(string path, string fileType, List<SubtitleItemViewModel> list, Dictionary<int, SubtitleItemViewModel> original)
         {
-            foreach(var item in list)
+            using (StreamWriter sw = new StreamWriter(path))
+            {
+                if (fileType == ConstantValues.SubtitleFileType1)
+                    SaveSubtitleFileWithType1(sw, list, original);
+                else if (fileType == ConstantValues.SubtitleFileType2)
+                    SaveSubtitleFileWithType2(sw, list, original);
+            }
+        }
+        private void SaveSubtitleFileWithType1(StreamWriter sw, List<SubtitleItemViewModel> list, Dictionary<int, SubtitleItemViewModel> original)
+        {
+            foreach (var item in list)
             {
                 sw.WriteLine(item.Index.ToString());
-                sw.WriteLine(string.Format("{0:hh\\:mm\\:ss\\,fff} --> {1:hh\\:mm\\:ss\\,fff}", item.StartTime,item.EndTime));
+                sw.WriteLine(string.Format("{0:hh\\:mm\\:ss\\,fff} --> {1:hh\\:mm\\:ss\\,fff}", item.StartTime, item.EndTime));
                 sw.WriteLine(item.Subtitle);
+                if (original != null)
+                    sw.WriteLine(original[item.Index].Subtitle);
                 sw.WriteLine("");
             }
         }
-        private void SaveSubtitleFileWithType2(StreamWriter sw, List<SubtitleItemViewModel> list)
+        private void SaveSubtitleFileWithType2(StreamWriter sw, List<SubtitleItemViewModel> list, Dictionary<int, SubtitleItemViewModel> original)
         {
             foreach (var item in list)
             {
                 sw.WriteLine(item.Index.ToString());
                 sw.WriteLine(string.Format("{0:h\\:mm\\:ss\\.fff},{1:h\\:mm\\:ss\\.fff}", item.StartTime, item.EndTime));
                 sw.WriteLine(item.Subtitle);
+                if (original != null)
+                    sw.WriteLine(original[item.Index].Subtitle);
                 sw.WriteLine("");
             }
         }

@@ -9,7 +9,8 @@
     xmlns:converts="clr-namespace:App.UI.Infrastructure.Converters;assembly=App.UI.Infrastructure"
     xmlns:pages="clr-namespace:SubtitleTranslator.ContentPages"
     xmlns:viewModels="clr-namespace:SubtitleTranslator.ViewModels"
-    Shell.TabBarIsVisible="False">
+    Shell.TabBarIsVisible="False" 
+    >
 
     <Shell.Resources>
         <ResourceDictionary>

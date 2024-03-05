@@ -17,6 +17,8 @@ namespace SubtitleTranslator.ViewModels
         public TextItemViewModel IntroductionPageTitle { get; private set; }
         public TextItemViewModel ViewOKText { get; private set; }
         public TextItemViewModel ViewCancelText { get; private set; }
+        public TextItemViewModel ExportFileTypeText { get; private set; }
+        public TextItemViewModel UseCombinationWithOriginalText { get; private set; }
         public TextViewModel(ILocalService localService):base(localService)
         {
         }
@@ -34,6 +36,10 @@ namespace SubtitleTranslator.ViewModels
             _keyTexts.Add(ViewOKText);
             ViewCancelText = new TextItemViewModel { Key = "view.Cancel", Text = "" };
             _keyTexts.Add(ViewCancelText);
+            ExportFileTypeText = new TextItemViewModel { Key = "view.ExportFileTypeText", Text = "" };
+            _keyTexts.Add(ExportFileTypeText);
+            UseCombinationWithOriginalText = new TextItemViewModel { Key = "view.UseCombinationWithOriginalText", Text = "" };
+            _keyTexts.Add(UseCombinationWithOriginalText);
         }
         protected override void UpdateTranslation()
         {

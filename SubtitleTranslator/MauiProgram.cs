@@ -49,6 +49,9 @@ namespace SubtitleTranslator
             builder.Services.AddSingleton<HomeViewModel>();
             builder.Services.AddScoped<IntroductionViewModel>();
             builder.Services.AddScoped<EditSubtitleViewModel>();
+            builder.Services.AddSingleton<SizeViewModel>();
+            builder.Services.AddScoped<WaitingViewModel>();
+            builder.Services.AddScoped<ExportFileTypeViewModel>();
             return builder;
         }
         public static MauiAppBuilder RegisterViews(this MauiAppBuilder builder)

@@ -6,7 +6,8 @@
              Title="{Binding TextViewModel.HomePageTitle.Text,Mode=OneWay}"
              xmlns:converts="clr-namespace:SubtitleTranslator.Converters"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             Loaded="PageLoaded">
+             Loaded="PageLoaded" 
+             SizeChanged="SizeChanged">
 
     <local:ModelHomePage.Resources>
         <ResourceDictionary>

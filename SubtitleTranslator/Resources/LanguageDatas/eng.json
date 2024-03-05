@@ -34,6 +34,8 @@
     "homeView.TranslationItem": "Translation",
     "homeView.ExportItem": "Export",
     "view.Cancel": "Cancel",
-    "view.OK": "OK"
+    "view.OK": "OK",
+    "view.ExportFileTypeText": "please choose file type for export",
+    "view.UseCombinationWithOriginalText": "Use combination with original"
   }
 }

@@ -23,7 +23,11 @@ namespace App.Infrastructure.Datas
         public bool UseOpenAi { get; set; } = false;
         [JsonProperty("openai_key")]
         public string OpenAiKey { get; set; } = string.Empty;
-        
+        [JsonProperty("file_types")]
+        public string[] FileTypes { get; set; } = [];
+        [JsonProperty("useCombinationWithOriginal")]
+        public bool UseCombinationWithOriginal { get; set; } = false;
+
     }
     //public class WindowSetting
     //{

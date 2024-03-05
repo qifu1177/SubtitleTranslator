@@ -9,6 +9,7 @@ public partial class EditSubtitleView : EditSubtitleViewAbstract
     public EditSubtitleView()
     {
         InitializeComponent();
+        
     }
 
     private void CloseClick(object sender, EventArgs e)
