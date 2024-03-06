@@ -23,8 +23,9 @@
             <Grid>
                 <StackLayout IsVisible="{Binding LanguageItem.IsEnabled,Mode=OneWay,Converter={StaticResource InvertBool}}">
                     <Label Text="{Binding LanguageItem.Text,Mode=OneWay}" Margin="0,0,0,20"/>
-                    <Picker Title="{Binding AppLanguageText.Text,Mode=OneWay}" Margin="0,0,0,20" 
-                            ItemsSource="{Binding LanguageItems,Mode=OneWay}" SelectedItem="{Binding AppLanguage,Mode=TwoWay}" ItemDisplayBinding="{Binding Text,Mode=OneWay}"/>
+                   
+                    <Picker Title="{Binding AppLanguageText.Text,Mode=OneWay}" Margin="0,0,0,20"  SelectedIndexChanged="AppLanguageChanged"
+                            ItemsSource="{Binding LanguageItems,Mode=OneWay}" SelectedItem="{Binding AppLanguage,Mode=OneWay}" ItemDisplayBinding="{Binding Text,Mode=OneWay}"/>
                     <Picker Title="{Binding OriginalLanguageText.Text,Mode=OneWay}" Margin="0,0,0,20"
                              ItemsSource="{Binding LanguageItems,Mode=OneWay}" SelectedItem="{Binding OriginalLanguage,Mode=TwoWay}" ItemDisplayBinding="{Binding Text,Mode=OneWay}"/>
                     <Label Text="{Binding TranslationLanguageText.Text,Mode=OneWay}" />

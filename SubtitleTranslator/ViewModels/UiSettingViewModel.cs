@@ -7,6 +7,7 @@ using SubtitleTranslator.Datas;
 using SubtitleTranslator.Resources;
 using SubtitleTranslator.Services;
 using SubtitleTranslator.ViewModels.Items;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace SubtitleTranslator.ViewModels
@@ -23,16 +24,21 @@ namespace SubtitleTranslator.ViewModels
         public SettingItemType SelectedItemType { get; private set; }
         public ICommand ItemSelected { get; private set; }
         public ICommand GetOpenAiKey { get; private set; }
-        public List<LanguageItemViewModel> LanguageItems { get; private set; }
+        public ObservableCollection<LanguageItemViewModel> LanguageItems { get; private set; }
+        private List<LanguageItemViewModel> _languages;
         private LanguageItemViewModel _appLanguage;
         public LanguageItemViewModel AppLanguage
         {
             get => _appLanguage;
             set => SetProperty((v) =>
             {
-                _appLanguage = value;
-                Setting.AppLanguage = _appLanguage.Data;
-                _localService.AppLanguaeCode = _appLanguage.Data.TessData.ToString();
+                if(value!=null)
+                {
+                    _appLanguage = value;
+                    Setting.AppLanguage = _appLanguage.Data;
+                    _localService.AppLanguaeCode = _appLanguage.Data.TessData.ToString();
+                }
+               
             }, value);
         }
         private LanguageItemViewModel _originalLanguage;
@@ -41,8 +47,12 @@ namespace SubtitleTranslator.ViewModels
             get => _originalLanguage; 
             set => SetProperty((v) =>
             {
-                _originalLanguage = value;
-                Setting.OriginalLanguage = _originalLanguage.Data;
+                if(value != null)
+                {
+                    _originalLanguage = value;
+                    Setting.OriginalLanguage = _originalLanguage.Data;
+                }
+               
             }, value);
         }
         
@@ -86,7 +96,8 @@ namespace SubtitleTranslator.ViewModels
                 var uri = new Uri($"https://platform.openai.com/account/api-keys");
                 await Launcher.OpenAsync(uri);
             });
-            LanguageItems = new List<LanguageItemViewModel>();
+            _languages = new List<LanguageItemViewModel>();
+            LanguageItems = new ObservableCollection<LanguageItemViewModel>();
         }
 
         public void SetData(UiSetting setting)
@@ -103,6 +114,7 @@ namespace SubtitleTranslator.ViewModels
                     Value = false,
                     Text = _localService[key]
                 };
+                _languages.Add(itemViewModel);
                 LanguageItems.Add(itemViewModel);
                 if(Setting.UserSetting.LanguageSetting.AppLanguage==item.ShortName)
                 {
@@ -118,12 +130,12 @@ namespace SubtitleTranslator.ViewModels
                     seletedLanguageItems.Add(item);
                 }
             }
-            foreach (var item in LanguageItems)
+            foreach (var item in _languages)
             {
                 item.ValueChanged += LanguageItem_ValueChanged;
             }
             Setting.TranslationLanguages = seletedLanguageItems.ToList();
-            _keyTexts.AddRange(LanguageItems);
+            _keyTexts.AddRange(_languages);
         }
 
         private void LanguageItem_ValueChanged()
@@ -148,6 +160,13 @@ namespace SubtitleTranslator.ViewModels
         {
             string settingPath = System.IO.Path.Combine(_pathHelp.UserPath, ConstantValues.SETTINGFILE);
             _settingSerivice.SaveUserSetting(Setting.UserSetting, settingPath);
+        }
+        public bool AfterAppLanguageChanged(LanguageItemViewModel selectedItem)
+        {
+            if (selectedItem.Data.TessData == _appLanguage.Data.TessData)
+                return false;
+            AppLanguage = selectedItem;
+            return true;
         }
         protected override void InitTranslation()
         {

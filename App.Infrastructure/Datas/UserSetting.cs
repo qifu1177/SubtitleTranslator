@@ -43,7 +43,7 @@ namespace App.Infrastructure.Datas
         [JsonProperty("originalLanguage")]
         public string OriginalLanguage { get; set; } = "en";
         [JsonProperty("translationLanguages")]
-        public List<string> TranslationLanguage { get; set; } = new List<string> { "en" };
+        public List<string> TranslationLanguage { get; set; } = new List<string> {  };
        
         
     }

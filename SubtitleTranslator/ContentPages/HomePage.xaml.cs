@@ -6,14 +6,23 @@ namespace SubtitleTranslator.ContentPages;
 
 public partial class HomePage : ModelHomePage
 {
-	public HomePage()
-	{
+    public HomePage()
+    {
         InitializeComponent();
+        ViewModel.StartLoad = () =>
+        {
+            refreshView.IsRefreshing = true;
+        };
+        ViewModel.StopLoad = () =>
+        {
+            refreshView.IsRefreshing = false;
+        };
+        
     }
-	
+
     private void PageLoaded(object sender, EventArgs e)
     {
-		ViewModel.UpdateLanguageItems();
+        ViewModel.UpdateLanguageItems();
     }
 
     private void SizeChanged(object sender, EventArgs e)
@@ -24,5 +33,5 @@ public partial class HomePage : ModelHomePage
     }
 }
 public abstract class ModelHomePage : ModelContentPage<HomeViewModel>
-{ 	
+{
 }

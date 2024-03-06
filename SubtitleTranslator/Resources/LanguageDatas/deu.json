@@ -8,7 +8,7 @@
     "settingView.AppLanguage": "App-Sprache",
     "settingView.OriginalLanguage": "Originalsprache",
     "settingView.TranslationLanguage": "Übersetzungssprache",
-    "settingView.GetOpenAiKey": "OpenAi-Key abrufen",
+    "settingView.GetOpenAiKey": "OpenAi-Schlüssel abrufen",
     "settingView.UseOpenAi": "Open Ai verwenden",
     "LegalView.AboutUsText": "Über uns",
     "LegalView.DataPrivacyText": "Datenschutz",
@@ -27,11 +27,15 @@
     "language.rus": "Russisch",
     "language.spa": "Spanisch",
     "language.tha": "Thailändisch",
-    "language.tur": "Türkisch",
+    "language.tur": "Turkish",
     "language.ukr": "Ukrainisch",
     "language.vie": "Vietnamesisch",
-    "homeView.ImportItem": "Import",
-    "homeView.TranslationItem": "Translation",
-    "homeView.ExportItem": "Export"
+    "homeView.ImportItem": "Importieren",
+    "homeView.TranslationItem": "Übersetzung",
+    "homeView.ExportItem": "Exportieren",
+    "view.Cancel": "Abbrechen",
+    "view.OK": "OK",
+    "view.ExportFileTypeText": "Bitte wählen Sie den Dateityp für den Export",
+    "view.UseCombinationWithOriginalText": "Kombination mit Original verwenden"
   }
 }

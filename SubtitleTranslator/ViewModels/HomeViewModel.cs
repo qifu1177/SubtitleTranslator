@@ -41,6 +41,9 @@ namespace SubtitleTranslator.ViewModels
         public string ErrorMessage { get => _errorMessage; set => SetProperty(ref _errorMessage, value); }
         private string _originalFile = string.Empty;
         public SizeViewModel SizeViewModel { get; private set; }
+        public Action StartLoad { get; set; }
+        public Action StopLoad { get; set; }
+        private bool IsLoading { get; set; } = false;
         public HomeViewModel(ILocalService localService, TextViewModel textViewModel, UiSettingViewModel uiSettingViewModel, AppService appService, SizeViewModel sizeViewModel) : base(localService)
         {
             TextViewModel = textViewModel;
@@ -52,6 +55,7 @@ namespace SubtitleTranslator.ViewModels
             _subtitleItems = new Dictionary<string, List<SubtitleItemViewModel>>();
             ItemSelected = new Command<string>(async (key) =>
             {
+                if (IsLoading) return;
                 _selectedKey = key;
                 if (_selectedKey == ImportItem.Key)
                     await OpenFile();
@@ -62,11 +66,13 @@ namespace SubtitleTranslator.ViewModels
             });
             LanguageItemCliecked = new Command<string>((key) =>
             {
+                if (IsLoading) return;
                 _selectedLanguageItemKey = key;
                 UpdateSelectedLanguageItem();
             });
             SubtitleItemEditCommand = new Command<SubtitleItemViewModel>(async (item) =>
             {
+                if (IsLoading) return;
                 item.Subtitle = await _appService.ShowPopupAsync<EditSubtitleView, EditSubtitleViewModel, string>((vm) =>
                 {
                     vm.Init(item.Subtitle);
@@ -76,7 +82,18 @@ namespace SubtitleTranslator.ViewModels
             SettingViewModel.UpdateTranslationsLanguages += SettingViewModel_UpdateTranslationsLanguages;
 
         }
-
+        private void Run(bool b)
+        {
+            IsLoading = b;
+            if (b)
+            {
+                StartLoad();
+            }
+            else
+            {
+                StopLoad();
+            }
+        }
         private void SettingViewModel_UpdateTranslationsLanguages()
         {
             UpdateLanguageItems();
@@ -137,15 +154,14 @@ namespace SubtitleTranslator.ViewModels
             ImportItem = new MenuItemViewModel { Key = "homeView.ImportItem", IsEnabled = true, Text = "" };
             _menuItems.Add(ImportItem);
 
-            TranslationItem = new MenuItemViewModel { Key = "homeView.TranslationItem", IsEnabled = true, Text = "" };
+            TranslationItem = new MenuItemViewModel { Key = "homeView.TranslationItem", IsEnabled = false, Text = "" };
             _menuItems.Add(TranslationItem);
-            ExportItem = new MenuItemViewModel { Key = "homeView.ExportItem", IsEnabled = true, Text = "" };
+            ExportItem = new MenuItemViewModel { Key = "homeView.ExportItem", IsEnabled = false, Text = "" };
             _menuItems.Add(ExportItem);
             _keyTexts.AddRange(_menuItems);
         }
         private async Task OpenFile()
         {
-
             PickOptions options = new()
             {
                 PickerTitle = "Please select a subtitle file",
@@ -154,6 +170,7 @@ namespace SubtitleTranslator.ViewModels
             FileResult fileResult = await PickAndShow(options);
             if (fileResult != null)
             {
+                Run(true);
                 _originalFile = fileResult.FullPath;
                 var list = _appService.GetSubtitleItemsFromFile(fileResult.FullPath);
                 SubtitleItems.Clear();
@@ -163,36 +180,39 @@ namespace SubtitleTranslator.ViewModels
                     SubtitleItems.Add(item);
                 }
                 _subtitleItems[_originalLanguageItem.Key] = list;
+                TranslationItem.IsEnabled = true;
+                Run(false);
             }
         }
         private async Task Translation()
         {
             if (_subtitleItems.TryGetValue(_originalLanguageItem.Key, out var originals))
             {
-                await _appService.ShowPopupAsync<WaitingView, WaitingViewModel>((vm) =>
+                //await _appService.ShowPopupAsync<WaitingView, WaitingViewModel>((vm) =>
+                //{
+                //    vm.Init(async () =>
+                //    {                        
+                //    });
+                //});
+                Run(true);
+                foreach (var item in LanguageItems)
                 {
-                    vm.Init(async () =>
+                    if (item.Key != _originalLanguageItem.Key)
                     {
-                        foreach (var item in LanguageItems)
+                        try
                         {
-                            if (item.Key != _originalLanguageItem.Key)
-                            {
-                                try
-                                {
-                                    var list = await _appService.Translation(originals, item.Data);
-                                    _subtitleItems[item.Key] = list;
-                                }
-                                catch (Exception ex)
-                                {
-                                    ErrorMessage = ex.Message;
-                                    break;
-                                }
-                            }
+                            var list = await _appService.Translation(originals, item.Data);
+                            _subtitleItems[item.Key] = list;
                         }
-                    });
-
-                });
-
+                        catch (Exception ex)
+                        {
+                            ErrorMessage = ex.Message;
+                            break;
+                        }
+                    }
+                }
+                ExportItem.IsEnabled = _subtitleItems.Count > 1;
+                Run(false);
             }
 
         }
@@ -204,13 +224,15 @@ namespace SubtitleTranslator.ViewModels
             {
                 vm.Init(SettingViewModel.Setting.UserSetting);
             });
-            Dictionary<int, SubtitleItemViewModel> dic = _subtitleItems[_originalLanguageItem.Key].ToDictionary(item => item.Index);
-            foreach (string fileType in SettingViewModel.Setting.UserSetting.FileTypes)
+            var result = await FolderPicker.Default.PickAsync(CancellationToken.None);
+            if (result.IsSuccessful)
             {
-                var (fileName, typeName) = _appService.GetFileNameAndType(_originalFile);
-                var result = await FolderPicker.Default.PickAsync(CancellationToken.None);
-                if (result.IsSuccessful)
+                Run(true);
+                Dictionary<int, SubtitleItemViewModel> dic = _subtitleItems[_originalLanguageItem.Key].ToDictionary(item => item.Index);
+                foreach (string fileType in SettingViewModel.Setting.UserSetting.FileTypes)
                 {
+                    var (fileName, typeName) = _appService.GetFileNameAndType(_originalFile);
+
                     foreach (var item in LanguageItems)
                     {
                         if (item.Key == _originalLanguageItem.Key)
@@ -235,7 +257,7 @@ namespace SubtitleTranslator.ViewModels
                     }
                 }
             }
-
+            Run(false);
 
         }
         public async Task<FileResult> PickAndShow(PickOptions options)
