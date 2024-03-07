@@ -24,8 +24,15 @@ namespace SubtitleTranslator
         }
         public void InitAppLanguage()
         {
-            string path = System.IO.Path.Combine(_pathHelp.AppPath, "Resources", "LanguageDatas");
-            _localService.Init(path);
+            //string path = System.IO.Path.Combine(_pathHelp.AppPath, "Resources", "LanguageDatas");
+            _localService.Init("LanguageDatas", async (file) =>
+            {
+                using var stream = await FileSystem.OpenAppPackageFileAsync(file);
+                using var reader = new StreamReader(stream);
+
+                var contents = reader.ReadToEnd();
+                return contents;
+            });
 
         }
         public void UpdateResourcen()

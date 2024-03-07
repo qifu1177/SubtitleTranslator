@@ -19,6 +19,10 @@
         <!--<ToolbarItem Text="{Binding ThirdPartiesItem.Text,Mode=OneWay}" Command="{Binding ItemSelected}" CommandParameter="{Binding ThirdPartiesItem.UrlKey}" IsEnabled="{Binding ThirdPartiesItem.IsEnabled}"></ToolbarItem>-->
     </local:ModelIntroductionPage.ToolbarItems>
     <local:ModelIntroductionPage.Content>
-        <WebView Source="{Binding SelectedUrl,Mode=OneWay}"/>
+        <WebView>
+            <WebView.Source>
+                <HtmlWebViewSource Html="{Binding CurrentHtml,Mode=OneWay}"/>
+            </WebView.Source>
+        </WebView>
     </local:ModelIntroductionPage.Content>
 </local:ModelIntroductionPage>

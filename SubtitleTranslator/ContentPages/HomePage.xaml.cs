@@ -17,7 +17,7 @@ public partial class HomePage : ModelHomePage
         {
             refreshView.IsRefreshing = false;
         };
-        
+
     }
 
     private void PageLoaded(object sender, EventArgs e)
@@ -30,6 +30,17 @@ public partial class HomePage : ModelHomePage
         ContentPage view = sender as ContentPage;
         ViewModel.SizeViewModel.Width = view.Frame.Width;
         ViewModel.SizeViewModel.Height = view.Frame.Height;
+    }
+
+    private void RefreshingLoad(object sender, EventArgs e)
+    {
+        if (!ViewModel.IsLoading)
+            refreshView.IsRefreshing = false;
+    }
+
+    private void ErrorMessageClick(object sender, EventArgs e)
+    {
+        ViewModel.ErrorMessage = string.Empty;
     }
 }
 public abstract class ModelHomePage : ModelContentPage<HomeViewModel>

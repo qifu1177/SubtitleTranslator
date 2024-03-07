@@ -10,6 +10,7 @@ using SubtitleTranslator.Resources.Configurations;
 using SubtitleTranslator.ViewModels.Abstracts;
 using SubtitleTranslator.ViewModels.Items;
 using SubtitleTranslator.Views.Abstracts;
+using System.Text;
 using System.Text.RegularExpressions;
 
 
@@ -139,48 +140,53 @@ namespace SubtitleTranslator.Services
             string[] strs = fileInfo.Name.Split('.');
             return (strs[0], strs[1]);
         }
-        public void SaveSubtitleFile(string path, string fileType, List<SubtitleItemViewModel> list)
+        public async Task SaveSubtitleFile(string path, string fileType, List<SubtitleItemViewModel> list)
         {
-            using (StreamWriter sw = new StreamWriter(path))
-            {
-                if (fileType == ConstantValues.SubtitleFileType1)
-                    SaveSubtitleFileWithType1(sw, list, null);
-                else if (fileType == ConstantValues.SubtitleFileType2)
-                    SaveSubtitleFileWithType2(sw, list, null);
-            }
+            FileInfo fileInfo = new FileInfo(path);
+            using FileStream outputStream =fileInfo.Exists? File.OpenWrite(path) : File.Create(path);
+            using StreamWriter streamWriter = new StreamWriter(outputStream);
+            StringBuilder stringBuilder = new StringBuilder();
+            if (fileType == ConstantValues.SubtitleFileType1)
+                SaveSubtitleFileWithType1(stringBuilder, list, null);
+            else if (fileType == ConstantValues.SubtitleFileType2)
+                SaveSubtitleFileWithType2(stringBuilder, list, null);
+            await streamWriter.WriteAsync(stringBuilder.ToString());
         }
-        public void SaveSubtitleFileWithOriginal(string path, string fileType, List<SubtitleItemViewModel> list, Dictionary<int, SubtitleItemViewModel> original)
+        public async Task SaveSubtitleFileWithOriginal(string path, string fileType, List<SubtitleItemViewModel> list, Dictionary<int, SubtitleItemViewModel> original)
         {
-            using (StreamWriter sw = new StreamWriter(path))
-            {
-                if (fileType == ConstantValues.SubtitleFileType1)
-                    SaveSubtitleFileWithType1(sw, list, original);
-                else if (fileType == ConstantValues.SubtitleFileType2)
-                    SaveSubtitleFileWithType2(sw, list, original);
-            }
+            using FileStream outputStream = System.IO.File.OpenWrite(path);
+            using StreamWriter streamWriter = new StreamWriter(outputStream);
+            StringBuilder stringBuilder = new StringBuilder();
+
+            if (fileType == ConstantValues.SubtitleFileType1)
+                SaveSubtitleFileWithType1(stringBuilder, list, original);
+            else if (fileType == ConstantValues.SubtitleFileType2)
+                SaveSubtitleFileWithType2(stringBuilder, list, original);
+
+            await streamWriter.WriteAsync(stringBuilder.ToString());
         }
-        private void SaveSubtitleFileWithType1(StreamWriter sw, List<SubtitleItemViewModel> list, Dictionary<int, SubtitleItemViewModel> original)
+        private void SaveSubtitleFileWithType1(StringBuilder stringBuilder, List<SubtitleItemViewModel> list, Dictionary<int, SubtitleItemViewModel> original)
         {
             foreach (var item in list)
             {
-                sw.WriteLine(item.Index.ToString());
-                sw.WriteLine(string.Format("{0:hh\\:mm\\:ss\\,fff} --> {1:hh\\:mm\\:ss\\,fff}", item.StartTime, item.EndTime));
-                sw.WriteLine(item.Subtitle);
+                stringBuilder.AppendLine(item.Index.ToString());
+                stringBuilder.AppendLine(string.Format("{0:hh\\:mm\\:ss\\,fff} --> {1:hh\\:mm\\:ss\\,fff}", item.StartTime, item.EndTime));
+                stringBuilder.AppendLine(item.Subtitle);
                 if (original != null)
-                    sw.WriteLine(original[item.Index].Subtitle);
-                sw.WriteLine("");
+                    stringBuilder.AppendLine(original[item.Index].Subtitle);
+                stringBuilder.AppendLine("");
             }
         }
-        private void SaveSubtitleFileWithType2(StreamWriter sw, List<SubtitleItemViewModel> list, Dictionary<int, SubtitleItemViewModel> original)
+        private void SaveSubtitleFileWithType2(StringBuilder stringBuilder, List<SubtitleItemViewModel> list, Dictionary<int, SubtitleItemViewModel> original)
         {
             foreach (var item in list)
             {
-                sw.WriteLine(item.Index.ToString());
-                sw.WriteLine(string.Format("{0:h\\:mm\\:ss\\.fff},{1:h\\:mm\\:ss\\.fff}", item.StartTime, item.EndTime));
-                sw.WriteLine(item.Subtitle);
+                stringBuilder.AppendLine(item.Index.ToString());
+                stringBuilder.AppendLine(string.Format("{0:h\\:mm\\:ss\\.fff},{1:h\\:mm\\:ss\\.fff}", item.StartTime, item.EndTime));
+                stringBuilder.AppendLine(item.Subtitle);
                 if (original != null)
-                    sw.WriteLine(original[item.Index].Subtitle);
-                sw.WriteLine("");
+                    stringBuilder.AppendLine(original[item.Index].Subtitle);
+                stringBuilder.AppendLine("");
             }
         }
     }

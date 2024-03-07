@@ -12,6 +12,7 @@
     <local:ModelHomePage.Resources>
         <ResourceDictionary>
             <converts:BoolColorConverter x:Key="BoolColor"/>
+            <converts:StringBoolConverter x:Key="StringBool"/>
         </ResourceDictionary>
     </local:ModelHomePage.Resources>
     <local:ModelHomePage.ToolbarItems>
@@ -20,9 +21,10 @@
         <ToolbarItem Text="{Binding ExportItem.Text,Mode=OneWay}" Command="{Binding ItemSelected}" CommandParameter="{Binding ExportItem.Key}" IsEnabled="{Binding ExportItem.IsEnabled,Mode=OneWay}"></ToolbarItem>
     </local:ModelHomePage.ToolbarItems>
     <local:ModelHomePage.Content>
-        <RefreshView x:Name="refreshView">
+        <RefreshView x:Name="refreshView" Refreshing="RefreshingLoad">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
@@ -37,7 +39,11 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                <CollectionView Grid.Row="1" ItemsLayout="VerticalList"  ItemsSource="{Binding SubtitleItems}" Margin="5">
+                <VerticalStackLayout Grid.Row="1" IsVisible="{Binding ErrorMessage,Mode=OneWay,Converter={StaticResource StringBool}}">
+                    <Label Text="{Binding ErrorMessage,Mode=OneWay}" TextColor="{StaticResource Red}" Margin="5,10,5,10"/>
+                    <Button Text="{Binding TextViewModel.ViewOKText.Text,Mode=OneWay}" Clicked="ErrorMessageClick" Margin="10"/>
+                </VerticalStackLayout>
+                <CollectionView Grid.Row="2" ItemsLayout="VerticalList"  ItemsSource="{Binding SubtitleItems}" Margin="5">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Grid>

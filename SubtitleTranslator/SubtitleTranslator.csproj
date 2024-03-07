@@ -58,6 +58,10 @@
 	<ItemGroup>
 	  <None Remove="Resources\Images\edit.png" />
 	  <None Remove="Resources\Images\waiting.gif" />
+	  <None Remove="Resources\Raw\Legals\AboutUs\chi_sim.html" />
+	  <None Remove="Resources\Raw\Legals\DataPrivacy\chi_sim.html" />
+	  <None Remove="Resources\Raw\Legals\Instructions\chi_sim.html" />
+	  <None Remove="Resources\Raw\Legals\ThirdParties\chi_sim.html" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -78,6 +82,21 @@
 	  <Compile Update="Views\EditSubtitleView.xaml.cs">
 	    <DependentUpon>EditSubtitleView.xaml</DependentUpon>
 	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiAsset Update="Resources\Raw\Legals\AboutUs\chi_sim.html">
+	    <CopyToOutputDirectory></CopyToOutputDirectory>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\Legals\DataPrivacy\chi_sim.html">
+	    <CopyToOutputDirectory></CopyToOutputDirectory>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\Legals\Instructions\chi_sim.html">
+	    <CopyToOutputDirectory></CopyToOutputDirectory>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\Legals\ThirdParties\chi_sim.html">
+	    <CopyToOutputDirectory></CopyToOutputDirectory>
+	  </MauiAsset>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -102,154 +121,142 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="Resources\LanguageDatas\chi_sim.json">
+	  <None Update="Resources\Raw\LanguageDatas\chi_sim.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\LanguageDatas\chi_tra.json">
+	  <None Update="Resources\Raw\LanguageDatas\chi_tra.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\LanguageDatas\deu.json">
+	  <None Update="Resources\Raw\LanguageDatas\deu.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\LanguageDatas\eng.json">
+	  <None Update="Resources\Raw\LanguageDatas\eng.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\LanguageDatas\fra.json">
+	  <None Update="Resources\Raw\LanguageDatas\fra.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\LanguageDatas\ita.json">
+	  <None Update="Resources\Raw\LanguageDatas\ita.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\LanguageDatas\jpn.json">
+	  <None Update="Resources\Raw\LanguageDatas\jpn.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\LanguageDatas\kor.json">
+	  <None Update="Resources\Raw\LanguageDatas\kor.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\LanguageDatas\rus.json">
+	  <None Update="Resources\Raw\LanguageDatas\rus.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\LanguageDatas\spa.json">
+	  <None Update="Resources\Raw\LanguageDatas\spa.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\AboutUs\chi_sim.html">
+	  <None Update="Resources\Raw\Legals\AboutUs\chi_tra.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\AboutUs\chi_tra.html">
+	  <None Update="Resources\Raw\Legals\AboutUs\deu.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\AboutUs\deu.html">
+	  <None Update="Resources\Raw\Legals\AboutUs\eng.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\AboutUs\eng.html">
+	  <None Update="Resources\Raw\Legals\AboutUs\fra.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\AboutUs\fra.html">
+	  <None Update="Resources\Raw\Legals\AboutUs\ita.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\AboutUs\ita.html">
+	  <None Update="Resources\Raw\Legals\AboutUs\jpn.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\AboutUs\jpn.html">
+	  <None Update="Resources\Raw\Legals\AboutUs\kor.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\AboutUs\kor.html">
+	  <None Update="Resources\Raw\Legals\AboutUs\rus.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\AboutUs\rus.html">
+	  <None Update="Resources\Raw\Legals\AboutUs\spa.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\AboutUs\spa.html">
+	  <None Update="Resources\Raw\Legals\DataPrivacy\chi_tra.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\DataPrivacy\chi_sim.html">
+	  <None Update="Resources\Raw\Legals\DataPrivacy\deu.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\DataPrivacy\chi_tra.html">
+	  <None Update="Resources\Raw\Legals\DataPrivacy\eng.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\DataPrivacy\deu.html">
+	  <None Update="Resources\Raw\Legals\DataPrivacy\fra.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\DataPrivacy\eng.html">
+	  <None Update="Resources\Raw\Legals\DataPrivacy\ita.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\DataPrivacy\fra.html">
+	  <None Update="Resources\Raw\Legals\DataPrivacy\jpn.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\DataPrivacy\ita.html">
+	  <None Update="Resources\Raw\Legals\DataPrivacy\kor.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\DataPrivacy\jpn.html">
+	  <None Update="Resources\Raw\Legals\DataPrivacy\rus.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\DataPrivacy\kor.html">
+	  <None Update="Resources\Raw\Legals\DataPrivacy\spa.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\DataPrivacy\rus.html">
+	  <None Update="Resources\Raw\Legals\Instructions\chi_tra.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\DataPrivacy\spa.html">
+	  <None Update="Resources\Raw\Legals\Instructions\deu.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\Instructions\chi_sim.html">
+	  <None Update="Resources\Raw\Legals\Instructions\eng.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\Instructions\chi_tra.html">
+	  <None Update="Resources\Raw\Legals\Instructions\fra.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\Instructions\deu.html">
+	  <None Update="Resources\Raw\Legals\Instructions\ita.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\Instructions\eng.html">
+	  <None Update="Resources\Raw\Legals\Instructions\jpn.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\Instructions\fra.html">
+	  <None Update="Resources\Raw\Legals\Instructions\kor.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\Instructions\ita.html">
+	  <None Update="Resources\Raw\Legals\Instructions\rus.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\Instructions\jpn.html">
+	  <None Update="Resources\Raw\Legals\Instructions\spa.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\Instructions\kor.html">
+	  <None Update="Resources\Raw\Legals\ThirdParties\chi_tra.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\Instructions\rus.html">
+	  <None Update="Resources\Raw\Legals\ThirdParties\deu.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\Instructions\spa.html">
+	  <None Update="Resources\Raw\Legals\ThirdParties\eng.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\ThirdParties\chi_sim.html">
+	  <None Update="Resources\Raw\Legals\ThirdParties\fra.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\ThirdParties\chi_tra.html">
+	  <None Update="Resources\Raw\Legals\ThirdParties\ita.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\ThirdParties\deu.html">
+	  <None Update="Resources\Raw\Legals\ThirdParties\jpn.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\ThirdParties\eng.html">
+	  <None Update="Resources\Raw\Legals\ThirdParties\kor.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\ThirdParties\fra.html">
+	  <None Update="Resources\Raw\Legals\ThirdParties\rus.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Legals\ThirdParties\ita.html">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Resources\Legals\ThirdParties\jpn.html">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Resources\Legals\ThirdParties\kor.html">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Resources\Legals\ThirdParties\rus.html">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Resources\Legals\ThirdParties\spa.html">
+	  <None Update="Resources\Raw\Legals\ThirdParties\spa.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

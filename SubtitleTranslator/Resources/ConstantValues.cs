@@ -10,10 +10,10 @@ namespace SubtitleTranslator.Resources
         public static FilePickerFileType SubtitleFileTypes = new FilePickerFileType(
                 new Dictionary<DevicePlatform, IEnumerable<string>>
                 {
-                    { DevicePlatform.iOS, new[] { "public.my.comic.extension" } }, // UTType values
-                    { DevicePlatform.Android, new[] { "application/comics" } }, // MIME type
+                    { DevicePlatform.iOS, new[] { "public.text" } }, // UTType values
+                    { DevicePlatform.Android, new[] { "text/plain" } }, // MIME type
                     { DevicePlatform.WinUI, new[] { ".srt", ".sbv" } }, // file extension
-                    { DevicePlatform.Tizen, new[] { "*/*" } },
+                    { DevicePlatform.Tizen, new[] { ".srt\", \".sbv" } },
                     { DevicePlatform.macOS, new[] { "srt", "sbv" } }, // UTType values
                 });
     }

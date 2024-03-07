@@ -9,7 +9,7 @@ namespace App.Infrastructure.Interfaces.Services
 {
     public interface ILocalService
     {
-        ILocalService Init(string languageDataPath);
+        ILocalService Init(string languageDataPath, Func<string, Task<string>> readContentOfFile);
         string AppLanguaeCode { get; set; }
         string this[string key] { get; }
         void UpdaeKeyTexts();

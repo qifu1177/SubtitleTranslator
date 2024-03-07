@@ -43,7 +43,7 @@ namespace SubtitleTranslator.ViewModels
         public SizeViewModel SizeViewModel { get; private set; }
         public Action StartLoad { get; set; }
         public Action StopLoad { get; set; }
-        private bool IsLoading { get; set; } = false;
+        public bool IsLoading { get;private set; } = false;
         public HomeViewModel(ILocalService localService, TextViewModel textViewModel, UiSettingViewModel uiSettingViewModel, AppService appService, SizeViewModel sizeViewModel) : base(localService)
         {
             TextViewModel = textViewModel;
@@ -244,15 +244,15 @@ namespace SubtitleTranslator.ViewModels
                             {
                                 string file = Path.Combine(result.Folder.Path, $"{fileName}_{ln}.{fileType}");
                                 if (SettingViewModel.Setting.UserSetting.UseCombinationWithOriginal)
-                                    _appService.SaveSubtitleFileWithOriginal(file, fileType, list, dic);
+                                    await _appService.SaveSubtitleFileWithOriginal(file, fileType, list, dic);
                                 else
-                                    _appService.SaveSubtitleFile(file, fileType, list);
+                                    await _appService.SaveSubtitleFile(file, fileType, list);
                             }
                         }
                         catch (Exception ex)
                         {
                             ErrorMessage = ex.Message;
-                            return;
+                            break;
                         }
                     }
                 }

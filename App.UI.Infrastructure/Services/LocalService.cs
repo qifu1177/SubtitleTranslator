@@ -14,14 +14,16 @@ namespace App.UI.Infrastructure.Services
         private Dictionary<string, string> _datas;
         public event Action AfterLanguageChnaged;
         public List<IKeyText> KeyTexts { get; private set; }
+        private Func<string, Task<string>> ReadContentOfFile;
         public LocalService()
         {
             KeyTexts = new List<IKeyText>();
             _datas = new Dictionary<string, string>();
         }
-        public ILocalService Init(string languageDataPath)
+        public ILocalService Init(string languageDataPath, Func<string, Task<string>> readContentOfFile)
         {
-            _languageDataPath = languageDataPath;            
+            _languageDataPath = languageDataPath;
+            ReadContentOfFile = readContentOfFile;
             return this;
         }
         public string AppLanguaeCode
@@ -33,18 +35,14 @@ namespace App.UI.Infrastructure.Services
                 Update();
             }
         }
-        private void Update()
+        private async void Update()
         {
             string languageDataPath = System.IO.Path.Combine(_languageDataPath, $"{_appLanguageCode}.json");
-            var fileInfo = new FileInfo(languageDataPath);
-            if (fileInfo.Exists)
-            {
-                string str = System.IO.File.ReadAllText(fileInfo.FullName);
-                var data = JsonConvert.DeserializeObject<LanguageData>(str);
-                _datas = data.Datas;
-            }
+            string str = await ReadContentOfFile(languageDataPath);
+            var data = JsonConvert.DeserializeObject<LanguageData>(str);
+            _datas = data.Datas;
             UpdaeKeyTexts();
-            if(AfterLanguageChnaged!=null)
+            if (AfterLanguageChnaged != null)
                 AfterLanguageChnaged();
         }
         public void UpdaeKeyTexts()

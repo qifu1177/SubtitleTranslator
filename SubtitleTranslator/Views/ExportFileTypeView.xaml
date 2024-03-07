@@ -4,7 +4,7 @@
              x:Class="SubtitleTranslator.Views.ExportFileTypeView"
               xmlns:local="clr-namespace:SubtitleTranslator.Views"
              xmlns:controls="clr-namespace:App.UI.Infrastructure.Controls;assembly=App.UI.Infrastructure">
-    <VerticalStackLayout MinimumWidthRequest="350" MinimumHeightRequest="110">
+    <VerticalStackLayout MinimumWidthRequest="350" MinimumHeightRequest="160">
         <Label Margin="0,10,0,10"
             Text="{Binding TextViewModel.ExportFileTypeText.Text,Mode=OneWay}"
             VerticalOptions="Center" 
