@@ -5,9 +5,9 @@
              x:Class="SubtitleTranslator.Views.EditSubtitleView"
              xmlns:local="clr-namespace:SubtitleTranslator.Views"
              >
-    <VerticalStackLayout>
-        <Editor Text="{Binding SubTitle,Mode=TwoWay}" Margin="10,20,10,10" MinimumWidthRequest="350" MinimumHeightRequest="160"/>
-        <Grid>
+    <VerticalStackLayout WidthRequest="{Binding SizeViewModel.Width,Mode=OneWay}" MinimumHeightRequest="350">
+        <Editor Text="{Binding SubTitle,Mode=TwoWay}" Margin="10,20,10,10" MinimumHeightRequest="260"/>
+        <Grid Margin="5,5,5,15">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50*"/>
                 <ColumnDefinition Width="50*"/>

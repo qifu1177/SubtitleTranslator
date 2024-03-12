@@ -36,6 +36,7 @@
     "view.Cancel": "キャンセル",
     "view.OK": "OK",
     "view.ExportFileTypeText": "エクスポートするファイルの種類を選択してください",
-    "view.UseCombinationWithOriginalText": "オリジナルとの組み合わせを使用"
+    "view.UseCombinationWithOriginalText": "オリジナルとの組み合わせを使用",
+    "view.UseCombinationTranslation": "翻訳を組み合わせて使用する"
   }
 }

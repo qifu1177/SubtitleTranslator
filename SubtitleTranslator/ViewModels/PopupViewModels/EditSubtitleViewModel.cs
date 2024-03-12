@@ -8,9 +8,11 @@ namespace SubtitleTranslator.ViewModels.PopupViewModels
         private string _subtitle;
         public string SubTitle { get => _subtitle; set => SetProperty(ref _subtitle, value); }
         public TextViewModel TextViewModel { get;private set; }
-        public EditSubtitleViewModel(TextViewModel textViewModel)
+        public SizeViewModel SizeViewModel { get;private set; }
+        public EditSubtitleViewModel(TextViewModel textViewModel, SizeViewModel sizeViewModel)
         {
             TextViewModel = textViewModel;
+            SizeViewModel = sizeViewModel;
         }
 
         public void Init(string text)

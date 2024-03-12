@@ -36,6 +36,7 @@
     "view.Cancel": "Abbrechen",
     "view.OK": "OK",
     "view.ExportFileTypeText": "Bitte wählen Sie den Dateityp für den Export",
-    "view.UseCombinationWithOriginalText": "Kombination mit Original verwenden"
+    "view.UseCombinationWithOriginalText": "Kombination mit Original verwenden",
+    "view.UseCombinationTranslation": "Verwenden Sie eine Kombination von Übersetzungen"
   }
 }

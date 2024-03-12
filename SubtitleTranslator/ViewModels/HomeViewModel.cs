@@ -1,11 +1,8 @@
-﻿using App.Infrastructure.Datas;
+﻿
 using App.Infrastructure.Interfaces.Services;
 using App.UI.Infrastructure.Services;
 using App.UI.Infrastructure.ViewModels.Abstractions;
-using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Storage;
-using Microsoft.Maui.Controls;
-using SubtitleTranslator.ContentPages;
 using SubtitleTranslator.Resources;
 using SubtitleTranslator.Services;
 using SubtitleTranslator.ViewModels.Items;
@@ -13,7 +10,6 @@ using SubtitleTranslator.ViewModels.PopupViewModels;
 using SubtitleTranslator.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading;
 using System.Windows.Input;
 
 namespace SubtitleTranslator.ViewModels
@@ -43,7 +39,7 @@ namespace SubtitleTranslator.ViewModels
         public SizeViewModel SizeViewModel { get; private set; }
         public Action StartLoad { get; set; }
         public Action StopLoad { get; set; }
-        public bool IsLoading { get;private set; } = false;
+        public bool IsLoading { get; private set; } = false;
         public HomeViewModel(ILocalService localService, TextViewModel textViewModel, UiSettingViewModel uiSettingViewModel, AppService appService, SizeViewModel sizeViewModel) : base(localService)
         {
             TextViewModel = textViewModel;
@@ -224,25 +220,43 @@ namespace SubtitleTranslator.ViewModels
             {
                 vm.Init(SettingViewModel.Setting.UserSetting);
             });
+#if ANDROID
+           
+            //var dir = Android.App.Application.Context.GetExternalFilesDir(Android.OS.Environment.DirectoryDownloads);
+            var dir = Android.OS.Environment.ExternalStorageDirectory;
+            await SaveFiles(Path.Combine(dir.AbsolutePath,Android.OS.Environment.DirectoryDownloads));
+#else
             var result = await FolderPicker.Default.PickAsync(CancellationToken.None);
             if (result.IsSuccessful)
             {
-                Run(true);
-                Dictionary<int, SubtitleItemViewModel> dic = _subtitleItems[_originalLanguageItem.Key].ToDictionary(item => item.Index);
-                foreach (string fileType in SettingViewModel.Setting.UserSetting.FileTypes)
+                await SaveFiles(result.Folder.Path);
+            }
+#endif
+        }
+        private async Task SaveFiles(string path)
+        {
+            Run(true);
+            Dictionary<int, SubtitleItemViewModel> dic = _subtitleItems[_originalLanguageItem.Key].ToDictionary(item => item.Index);
+            foreach (string fileType in SettingViewModel.Setting.UserSetting.FileTypes)
+            {
+                var (fileName, typeName) = _appService.GetFileNameAndType(_originalFile);
+                if (SettingViewModel.Setting.UserSetting.UseCombinationTranslation)
                 {
-                    var (fileName, typeName) = _appService.GetFileNameAndType(_originalFile);
-
-                    foreach (var item in LanguageItems)
+                    string file = Path.Combine(path, $"{fileName}_translations.{fileType}");
+                    await _appService.SaveAllSubtitleInFile(file, fileType, _subtitleItems, _originalLanguageItem.Key, SettingViewModel.Setting.UserSetting.UseCombinationWithOriginal);
+                }
+                else
+                {
+                    foreach (var item in _subtitleItems)
                     {
                         if (item.Key == _originalLanguageItem.Key)
                             continue;
-                        string ln = item.Data.TessData.ToString();
+                        string ln = item.Key;
                         try
                         {
                             if (_subtitleItems.TryGetValue(item.Key, out var list))
                             {
-                                string file = Path.Combine(result.Folder.Path, $"{fileName}_{ln}.{fileType}");
+                                string file = Path.Combine(path, $"{fileName}_{ln}.{fileType}");
                                 if (SettingViewModel.Setting.UserSetting.UseCombinationWithOriginal)
                                     await _appService.SaveSubtitleFileWithOriginal(file, fileType, list, dic);
                                 else
@@ -256,10 +270,11 @@ namespace SubtitleTranslator.ViewModels
                         }
                     }
                 }
+
             }
             Run(false);
-
         }
+
         public async Task<FileResult> PickAndShow(PickOptions options)
         {
             try

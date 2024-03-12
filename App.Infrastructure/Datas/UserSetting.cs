@@ -27,6 +27,8 @@ namespace App.Infrastructure.Datas
         public string[] FileTypes { get; set; } = [];
         [JsonProperty("useCombinationWithOriginal")]
         public bool UseCombinationWithOriginal { get; set; } = false;
+        [JsonProperty("useCombinationTranslation")]
+        public bool UseCombinationTranslation { get; set; } = false;
 
     }
     //public class WindowSetting

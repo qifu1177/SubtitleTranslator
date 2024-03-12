@@ -143,7 +143,7 @@ namespace SubtitleTranslator.Services
         public async Task SaveSubtitleFile(string path, string fileType, List<SubtitleItemViewModel> list)
         {
             FileInfo fileInfo = new FileInfo(path);
-            using FileStream outputStream =fileInfo.Exists? File.OpenWrite(path) : File.Create(path);
+            using FileStream outputStream = fileInfo.Exists ? File.OpenWrite(path) : File.Create(path);
             using StreamWriter streamWriter = new StreamWriter(outputStream);
             StringBuilder stringBuilder = new StringBuilder();
             if (fileType == ConstantValues.SubtitleFileType1)
@@ -181,13 +181,46 @@ namespace SubtitleTranslator.Services
         {
             foreach (var item in list)
             {
-                stringBuilder.AppendLine(item.Index.ToString());
                 stringBuilder.AppendLine(string.Format("{0:h\\:mm\\:ss\\.fff},{1:h\\:mm\\:ss\\.fff}", item.StartTime, item.EndTime));
                 stringBuilder.AppendLine(item.Subtitle);
                 if (original != null)
                     stringBuilder.AppendLine(original[item.Index].Subtitle);
                 stringBuilder.AppendLine("");
             }
+        }
+        public async Task SaveAllSubtitleInFile(string path, string fileType, Dictionary<string, List<SubtitleItemViewModel>> dic, string originalKey, bool withOriginal)
+        {
+            FileInfo fileInfo = new FileInfo(path);
+            using FileStream outputStream = fileInfo.Exists ? File.OpenWrite(path) : File.Create(path);
+            using StreamWriter streamWriter = new StreamWriter(outputStream);
+            StringBuilder stringBuilder = new StringBuilder();
+            bool isFileType1 = fileType == ConstantValues.SubtitleFileType1;
+            string timeRowTemp = isFileType1 ? "{0:hh\\:mm\\:ss\\,fff} --> {1:hh\\:mm\\:ss\\,fff}" : "{0:h\\:mm\\:ss\\.fff},{1:h\\:mm\\:ss\\.fff}";
+            Dictionary<string, Dictionary<int, SubtitleItemViewModel>> keyToIndexToItems = new Dictionary<string, Dictionary<int, SubtitleItemViewModel>>();
+            foreach (var item in dic)
+            {
+                keyToIndexToItems[item.Key]=item.Value.ToDictionary(item=>item.Index);
+            }
+            foreach(var item in keyToIndexToItems[originalKey])
+            {
+                if(isFileType1)
+                    stringBuilder.AppendLine(item.Key.ToString());
+                stringBuilder.AppendLine(string.Format(timeRowTemp, item.Value.StartTime, item.Value.EndTime));
+                foreach(var keyIndexItem in keyToIndexToItems)
+                {
+                    if(keyIndexItem.Key==originalKey)
+                    {
+                        if (withOriginal)
+                            stringBuilder.AppendLine(keyIndexItem.Value[item.Key].Subtitle);
+                    }else
+                    {
+                        if(keyIndexItem.Value.ContainsKey(item.Key))
+                            stringBuilder.AppendLine(keyIndexItem.Value[item.Key].Subtitle);
+                    }
+                }
+                stringBuilder.AppendLine("");
+            }
+            await streamWriter.WriteAsync(stringBuilder.ToString());
         }
     }
 }

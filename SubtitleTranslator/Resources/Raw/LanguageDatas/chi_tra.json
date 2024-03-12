@@ -36,6 +36,7 @@
     "view.Cancel": "取消",
     "view.OK": "確定",
     "view.ExportFileTypeText": "請選擇匯出的檔案類型",
-    "view.UseCombinationWithOriginalText": "使用與原始的組合"
+    "view.UseCombinationWithOriginalText": "使用與原始的組合",
+    "view.UseCombinationTranslation": "使用翻譯組合"
   }
 }

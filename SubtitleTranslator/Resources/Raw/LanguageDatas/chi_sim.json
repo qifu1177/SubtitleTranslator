@@ -36,6 +36,7 @@
     "view.Cancel": "取消",
     "view.OK": "确定",
     "view.ExportFileTypeText": "请选择导出的文件类型",
-    "view.UseCombinationWithOriginalText": "使用与原始的组合"
+    "view.UseCombinationWithOriginalText": "使用与原始的组合",
+    "view.UseCombinationTranslation": "使用翻译组合"
   }
 }

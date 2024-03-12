@@ -36,6 +36,7 @@
     "view.Cancel": "취소",
     "view.OK": "확인",
     "view.ExportFileTypeText": "내보낼 파일 형식을 선택하세요",
-    "view.UseCombinationWithOriginalText": "원본과의 조합 사용"
+    "view.UseCombinationWithOriginalText": "원본과의 조합 사용",
+    "view.UseCombinationTranslation": "번역 조합 사용"
   }
 }

@@ -17,12 +17,16 @@ namespace SubtitleTranslator.ViewModels.PopupViewModels
         public string Type2Text { get; private set; }
         private bool _useCombinationWithOriginal = false;
         public bool UseCombinationWithOriginal { get => _useCombinationWithOriginal; set => SetProperty(ref _useCombinationWithOriginal, value); }
+        private bool _useCombinationTranslations = false;
+        public bool UseCombinationTranslations { get => _useCombinationTranslations; set => SetProperty(ref _useCombinationTranslations, value); }
         private UserSetting _userSetting;
-        public ExportFileTypeViewModel(TextViewModel textViewModel)
+        public SizeViewModel SizeViewModel { get; private set; }
+        public ExportFileTypeViewModel(TextViewModel textViewModel, SizeViewModel sizeViewModel)
         {
             TextViewModel = textViewModel;
             Type1Text = ConstantValues.SubtitleFileType1;
             Type2Text = ConstantValues.SubtitleFileType2;
+            SizeViewModel = sizeViewModel;
         }
         public void Init(UserSetting userSetting)
         {
@@ -37,6 +41,7 @@ namespace SubtitleTranslator.ViewModels.PopupViewModels
                     Type2 = true;
             }
             UseCombinationWithOriginal = _userSetting.UseCombinationWithOriginal;
+            UseCombinationTranslations = _userSetting.UseCombinationTranslation;
         }
         public void Save()
         {
@@ -47,6 +52,7 @@ namespace SubtitleTranslator.ViewModels.PopupViewModels
                 list.Add(ConstantValues.SubtitleFileType2);
             _userSetting.FileTypes=list.ToArray();  
             _userSetting.UseCombinationWithOriginal = UseCombinationWithOriginal;
+            _userSetting.UseCombinationTranslation = UseCombinationTranslations;
         }
     }
 }
