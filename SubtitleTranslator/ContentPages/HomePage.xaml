@@ -28,10 +28,10 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <CollectionView Grid.Row="0" ItemsLayout="HorizontalList"  ItemsSource="{Binding LanguageItems}" MaximumHeightRequest="48" BackgroundColor="{StaticResource Tertiary}">
+                <CollectionView Grid.Row="0" ItemsLayout="HorizontalList"  ItemsSource="{Binding LanguageItems}" HeightRequest="48" BackgroundColor="{StaticResource Tertiary}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Label Text="{Binding Text,Mode=OneWay}"  Margin="15,8,15,5" TextColor="{Binding IsSelected,Mode=OneWay,Converter={StaticResource BoolColor}}">
+                            <Label Text="{Binding Text,Mode=OneWay}" Margin="15,8,15,8" TextColor="{Binding IsSelected,Mode=OneWay,Converter={StaticResource BoolColor}}">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding ItemClicked}" CommandParameter="{Binding Key}"/>
                                 </Label.GestureRecognizers>
