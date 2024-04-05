@@ -26,22 +26,10 @@ namespace App.Infrastructure.Datas
         [Language("ja", "Japanese")]
         jpn,
         [Language("ko", "Korean")]
-        kor,
-        [Language("ms", "Malay")]
-        msa,
-        [Language("pl", "Polish")]
-        pol,
+        kor,        
         [Language("ru", "Russian")]
         rus,
         [Language("es", "Spanish")]
         spa,
-        [Language("th", "Thai")]
-        tha,
-        [Language("tr", "Turkish")]
-        tur,
-        [Language("uk", "Ukrainian")]
-        ukr,
-        [Language("vi", "Vietnamese")]
-        vie,
     }
 }

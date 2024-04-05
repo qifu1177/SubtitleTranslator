@@ -27,11 +27,19 @@ namespace SubtitleTranslator
             //string path = System.IO.Path.Combine(_pathHelp.AppPath, "Resources", "LanguageDatas");
             _localService.Init("LanguageDatas", async (file) =>
             {
-                using var stream = await FileSystem.OpenAppPackageFileAsync(file);
-                using var reader = new StreamReader(stream);
-
-                var contents = reader.ReadToEnd();
-                return contents;
+                if (string.IsNullOrEmpty(file))
+                    return string.Empty;
+                try
+                {
+                    using var stream = await FileSystem.OpenAppPackageFileAsync(file);
+                    using var reader = new StreamReader(stream);
+                    var contents = reader.ReadToEnd();
+                    return contents;
+                }
+                catch (Exception ex)
+                {
+                }
+                return string.Empty;
             });
 
         }

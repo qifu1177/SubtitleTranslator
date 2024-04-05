@@ -39,6 +39,8 @@ namespace App.UI.Infrastructure.Services
         {
             string languageDataPath = System.IO.Path.Combine(_languageDataPath, $"{_appLanguageCode}.json");
             string str = await ReadContentOfFile(languageDataPath);
+            if (string.IsNullOrEmpty(str))
+                return;
             var data = JsonConvert.DeserializeObject<LanguageData>(str);
             _datas = data.Datas;
             UpdaeKeyTexts();

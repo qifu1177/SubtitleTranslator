@@ -1,5 +1,4 @@
 ﻿
-using Android.Provider;
 using App.Infrastructure.Interfaces.Services;
 using App.UI.Infrastructure.Services;
 using App.UI.Infrastructure.ViewModels.Abstractions;
